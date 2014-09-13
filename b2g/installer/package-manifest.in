@@ -135,6 +135,7 @@
 @RESPATH@/run-mozilla.sh
 #endif
 #endif
+@BINPATH@/models/
 
 ; [Components]
 @RESPATH@/components/components.manifest
