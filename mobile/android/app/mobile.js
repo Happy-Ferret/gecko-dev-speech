@@ -849,6 +849,7 @@ pref("device.storage.enabled", true);
 // Enable meta-viewport support for font inflation code
 pref("dom.meta-viewport.enabled", true);
 
+<<<<<<< HEAD
 // Enable GMP support in the addon manager.
 pref("media.gmp-provider.enabled", true);
 
@@ -877,3 +878,8 @@ pref("selectioncaret.detects.longtap", false);
 #ifdef NIGHTLY_BUILD
 pref("dom.serviceWorkers.enabled", true);
 #endif
+// Enable the OpenH264 plugin support in the addon manager.
+pref("media.gmp-gmpopenh264.provider.enabled", true);
+// Enable pocketsphinx Web Speech API
+pref("media.webspeech.recognition.enable", true);
+pref("media.webspeech.service.default", "pocketsphinx");
