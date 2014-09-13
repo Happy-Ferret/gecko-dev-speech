@@ -1904,6 +1904,7 @@ pref("dom.ipc.reportProcessHangs", false);
 pref("dom.ipc.reportProcessHangs", true);
 #endif
 
+<<<<<<< HEAD
 pref("browser.readinglist.enabled", false);
 pref("browser.readinglist.sidebarEverOpened", false);
 pref("readinglist.scheduler.enabled", false);
@@ -1923,3 +1924,8 @@ pref("browser.pocket.hostname", "localhost");
 pref("browser.pocket.oAuthConsumerKey", "40249-e88c401e1b1f2242d9e441c4");
 pref("browser.pocket.useLocaleList", true);
 pref("browser.pocket.enabledLocales", "en-US");
+// Disable reader mode by default.
+pref("reader.parse-on-load.enabled", false);
+// Enable Web Speech recognition API
+pref("media.webspeech.recognition.enable", true);
+pref("media.webspeech.service.default", "pocketsphinx");
