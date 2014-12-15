@@ -1904,7 +1904,6 @@ pref("dom.ipc.reportProcessHangs", false);
 pref("dom.ipc.reportProcessHangs", true);
 #endif
 
-<<<<<<< HEAD
 pref("browser.readinglist.enabled", false);
 pref("browser.readinglist.sidebarEverOpened", false);
 pref("readinglist.scheduler.enabled", false);
