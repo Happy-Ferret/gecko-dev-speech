@@ -68,8 +68,8 @@ public:
 
 private:
   nsString mResult;
-  nsCOMPtr<nsIThread> mWorkerThread;
   WeakPtr<dom::SpeechRecognition> mRecognition;
+  nsCOMPtr<nsIThread> mWorkerThread;
 };
 
 class DecodeTask : public nsRunnable
@@ -110,8 +110,8 @@ public:
 
 private:
   WeakPtr<dom::SpeechRecognition> mRecognition;
-  ps_decoder_t * mPs;
   std::vector<int16_t>  mAudiovector;
+  ps_decoder_t * mPs;
 
 };
 
