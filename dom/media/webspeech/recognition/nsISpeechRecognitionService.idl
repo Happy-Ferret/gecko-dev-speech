@@ -37,6 +37,8 @@ interface nsISpeechRecognitionService : nsISupports {
     void validateAndSetGrammarList(in SpeechGrammarPtr aSpeechGrammar, in nsISpeechGrammarCompilationCallback aCallback);
     void soundEnd();
     void abort();
+    void addPhonemeToDictionary(in DOMString aGrapheme, in DOMString aPhoneme);
+    void verifyPhonemeInDictionary(in DOMString aGrapheme);
 };
 
 %{C++

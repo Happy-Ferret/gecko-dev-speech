@@ -273,6 +273,26 @@ private:
   }
 
   NS_IMETHODIMP
+  PocketSphinxSpeechRecognitionService::AddPhonemeToDictionary(
+    const nsAString& aGrapheme, const nsAString& aPhoneme)
+  {
+    int rv;
+    rv = ps_add_word(mPSHandle, ToNewUTF8String(aGrapheme), ToNewUTF8String(aPhoneme),0);
+    return NS_OK;
+  }
+
+  NS_IMETHODIMP
+  PocketSphinxSpeechRecognitionService::VerifyPhonemeInDictionary(const nsAString& aGrapheme)
+  {
+    const char * word;
+    word = ps_lookup_word(mPSHandle, ToNewUTF8String(aGrapheme));
+    if (word == nullptr)
+      return NS_ERROR_FAILURE;
+    else
+      return NS_OK;
+  }
+
+  NS_IMETHODIMP
   PocketSphinxSpeechRecognitionService::Observe(nsISupports* aSubject, const char* aTopic, const char16_t* aData)
   {
 
