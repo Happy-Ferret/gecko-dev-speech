@@ -64,6 +64,20 @@ FakeSpeechRecognitionService::Abort()
 }
 
 NS_IMETHODIMP
+FakeSpeechRecognitionService::AddPhonemeToDictionary(
+  const nsAString& aGrapheme, const nsAString& aPhoneme)
+{
+  return NS_OK;
+}
+
+NS_IMETHODIMP
+FakeSpeechRecognitionService::VerifyPhonemeInDictionary(
+   const nsAString& aGrapheme)
+{
+  return NS_OK;
+}
+
+NS_IMETHODIMP
 FakeSpeechRecognitionService::Observe(nsISupports* aSubject, const char* aTopic, const char16_t* aData)
 {
   MOZ_ASSERT(mRecognition->mTestConfig.mFakeRecognitionService,

@@ -746,6 +746,33 @@ SpeechRecognition::Abort()
 }
 
 void
+SpeechRecognition::AddPhonemeToDictionary(const nsAString& aString,
+  const nsAString& aString2, ErrorResult& aRv)
+{
+  mRecognitionService = GetSpeechRecognitionService();
+  NS_ENSURE_TRUE_VOID(mRecognitionService);
+
+  mRecognitionService->AddPhonemeToDictionary(aString, aString2);
+}
+
+bool
+SpeechRecognition::VerifyPhonemeInDictionary(const nsAString& aString,
+                                 ErrorResult& aRv)
+{
+  bool result = false;
+  mRecognitionService = GetSpeechRecognitionService();
+  NS_ENSURE_TRUE(mRecognitionService, result);
+
+  nsresult rv;
+  rv = mRecognitionService->VerifyPhonemeInDictionary(aString);
+
+  if (rv == NS_OK)
+    return true;
+  else
+    return false;
+}
+
+void
 SpeechRecognition::DispatchError(EventType aErrorType,
                                  SpeechRecognitionErrorCode aErrorCode,
                                  const nsAString& aMessage)
