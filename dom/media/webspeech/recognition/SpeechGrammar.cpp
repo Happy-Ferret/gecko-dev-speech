@@ -78,5 +78,22 @@ SpeechGrammar::SetWeight(float aArg, ErrorResult& aRv)
   return;
 }
 
+void
+SpeechGrammar::AddPhonemeToDictionary(const nsAString& aString,
+  const nsAString& aString2, ErrorResult& aRv)
+{
+   aRv.Throw(NS_ERROR_NOT_IMPLEMENTED);
+}
+
+
+bool
+SpeechGrammar::VerifyPhonemeInDictionary(const nsAString& aString,
+                                 ErrorResult& aRv)
+{
+  aRv.Throw(NS_ERROR_NOT_IMPLEMENTED);
+  return false;
+}
+
+
 } // namespace dom
 } // namespace mozilla

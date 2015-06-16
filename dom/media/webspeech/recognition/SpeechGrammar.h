@@ -50,6 +50,12 @@ public:
 
   void SetWeight(float aArg, ErrorResult& aRv);
 
+  void AddPhonemeToDictionary(const nsAString& aString, const nsAString& aString2,
+    ErrorResult& aRv);
+
+  bool VerifyPhonemeInDictionary(const nsAString& aString, ErrorResult& aRv);
+
+
 private:
   ~SpeechGrammar();
 

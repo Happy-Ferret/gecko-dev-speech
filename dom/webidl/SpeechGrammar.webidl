@@ -17,5 +17,9 @@ interface SpeechGrammar {
     attribute DOMString src;
     [Throws]
     attribute float weight;
+    [Throws]
+    boolean verifyPhonemeInDictionary(DOMString string);
+    [Throws]
+    void addPhonemeToDictionary(DOMString string, DOMString string2);
 };
 
