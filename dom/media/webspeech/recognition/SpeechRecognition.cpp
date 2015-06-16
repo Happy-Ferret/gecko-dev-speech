@@ -746,6 +746,20 @@ SpeechRecognition::Abort()
 }
 
 void
+SpeechRecognition::AddPhonemeToDictionary(const nsAString& aString,
+  const nsAString& aString2, ErrorResult& aRv)
+{
+   aRv.Throw(NS_ERROR_NOT_IMPLEMENTED);
+}
+
+bool
+SpeechRecognition::VerifyPhonemeInDictionary(const nsAString& aString,
+                                 ErrorResult& aRv)
+{
+  return false;
+}
+
+void
 SpeechRecognition::DispatchError(EventType aErrorType,
                                  SpeechRecognitionErrorCode aErrorCode,
                                  const nsAString& aMessage)

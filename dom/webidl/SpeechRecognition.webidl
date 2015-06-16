@@ -26,6 +26,12 @@ interface SpeechRecognition : EventTarget {
     attribute unsigned long maxAlternatives;
     [Throws]
     attribute DOMString serviceURI;
+    
+    // methods to manage phonetic dictionary
+    [Throws]
+    boolean verifyPhonemeInDictionary(DOMString string);
+    [Throws]
+    void addPhonemeToDictionary(DOMString string, DOMString string2);
 
     // methods to drive the speech interaction
     [Throws, UnsafeInPrerendering]

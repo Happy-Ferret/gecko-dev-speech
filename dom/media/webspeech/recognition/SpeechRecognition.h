@@ -102,6 +102,12 @@ public:
 
   void Abort();
 
+  void AddPhonemeToDictionary(const nsAString& aString, const nsAString& aString2, 
+    ErrorResult& aRv);
+
+  bool VerifyPhonemeInDictionary(const nsAString& aString, 
+    ErrorResult& aRv);
+
   IMPL_EVENT_HANDLER(audiostart)
   IMPL_EVENT_HANDLER(soundstart)
   IMPL_EVENT_HANDLER(speechstart)
