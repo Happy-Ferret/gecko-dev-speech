@@ -612,8 +612,10 @@ dict_get_winner_wid(ngram_model_t *model, const char * word_grapheme, glist_t hi
 }
 
 char *
-dict_g2p(char const *word_grapheme, ngram_model_t *ngram_g2p_model) 
+dict_g2p(char const *word_grapheme, ngram_model_t *ngram_g2p_model)
 {
+    E_INFO("Gerando g2p \n", word_grapheme);
+
     char *final_phone = NULL;
     int totalh = 0;
     size_t increment = 1;
@@ -623,7 +625,7 @@ dict_g2p(char const *word_grapheme, ngram_model_t *ngram_g2p_model)
     glist_t history_list = NULL;
     gnode_t *gn;
     int first = 0;
-    const int32 *total_unigrams;
+    const uint32 *total_unigrams;
     struct winner_t winner;
     const char *word;
     unigram_t unigram;
@@ -632,7 +634,7 @@ dict_g2p(char const *word_grapheme, ngram_model_t *ngram_g2p_model)
     int32 wid_sentence = ngram_wid(ngram_g2p_model,"<s>"); // start with sentence
     history_list = glist_add_int32(history_list, wid_sentence);
     grapheme_len = strlen(word_grapheme);
-    for (j = 0; j < grapheme_len; j += increment) {
+    for (j = 0 ; j < grapheme_len ; j += increment) {
         winner = dict_get_winner_wid(ngram_g2p_model, word_grapheme, history_list, *total_unigrams, word_offset);
         increment = winner.length_match;
         if (increment == 0) {
@@ -653,30 +655,43 @@ dict_g2p(char const *word_grapheme, ngram_model_t *ngram_g2p_model)
             continue;
         }
         word = ngram_word(ngram_g2p_model, gnode_int32(gn));
-
+        E_INFO("Word aqui %s \n", word);
         if (!word)
             continue;
 
         unigram  = dict_split_unigram(word);
 
         if (strcmp(unigram.phone, "_") == 0) {
+            E_INFO("unigram.phone eh  _ : %s . unigram.word: %s . word full = %s \n", unigram.phone, unigram.word, word);
+
             if (unigram.word)
                 ckd_free(unigram.word);
             if (unigram.phone)
                 ckd_free(unigram.phone);
             continue;
         }
+/*
         strcat(final_phone, unigram.phone);
         strcat(final_phone, " ");
+*/
+        final_phone = string_join(final_phone, unigram.phone, " ", NULL);
+
+        E_INFO("antes free unigram.phone -%s- unigram.word -%s- final_phone -%s- \n", unigram.phone, unigram.word, final_phone);
 
         if (unigram.word)
             ckd_free(unigram.word);
         if (unigram.phone)
             ckd_free(unigram.phone);
+
+        E_INFO("depois free unigram.phone -%s- unigram.word -%s- final_phone -%s- \n", unigram.phone, unigram.word, final_phone);
     }
+
+    E_INFO("final_phone antes glistfree -%s- \n", final_phone);
 
     if (history_list)
         glist_free(history_list);
+
+    E_INFO("Retornando final_phone-%s-\n", final_phone);
 
     return final_phone;
 }

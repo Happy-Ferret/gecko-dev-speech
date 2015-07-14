@@ -27,6 +27,8 @@ extern "C" {
 
 namespace mozilla {
 
+#define DEFAULT_WEBSPEECH_LOCALE "en-US"
+
 using namespace dom;
 
 class DecodeResultTask : public nsRunnable
@@ -128,6 +130,18 @@ PocketSphinxSpeechRecognitionService::PocketSphinxSpeechRecognitionService()
 {
   mSpeexState = nullptr;
 
+  // get reza local
+  nsAutoCString webSpeechLocale;
+  nsAutoCString webSpeechDictionary;
+  nsAdoptingCString prefValue =
+    Preferences::GetCString(MEDIA_WEBSPEECH_LOCALE_REZA);
+  if (!prefValue.get() || prefValue.IsEmpty()) {
+    webSpeechLocale = DEFAULT_WEBSPEECH_LOCALE;
+  } else {
+    webSpeechLocale = prefValue;
+  }
+  webSpeechDictionary = webSpeechLocale + NS_LITERAL_CSTRING(".dic");
+
   // get root folder
   nsCOMPtr<nsIFile> tmpFile;
   nsAutoString aStringAMPath;   // am folder
@@ -139,7 +153,7 @@ PocketSphinxSpeechRecognitionService::PocketSphinxSpeechRecognitionService()
   tmpFile->AppendRelativePath(NS_LITERAL_STRING(".."));
 #endif
   tmpFile->AppendRelativePath(NS_LITERAL_STRING("models"));
-  tmpFile->AppendRelativePath(NS_LITERAL_STRING("en-US"));
+  tmpFile->AppendRelativePath(NS_ConvertUTF8toUTF16(webSpeechLocale));
   tmpFile->GetPath(aStringAMPath);
 
   NS_GetSpecialDirectory(NS_GRE_DIR, getter_AddRefs(tmpFile));
@@ -149,7 +163,7 @@ PocketSphinxSpeechRecognitionService::PocketSphinxSpeechRecognitionService()
 #endif
   tmpFile->AppendRelativePath(NS_LITERAL_STRING("models"));     //
   tmpFile->AppendRelativePath(NS_LITERAL_STRING("dict"));       //
-  tmpFile->AppendRelativePath(NS_LITERAL_STRING("en-US.dic")); //
+  tmpFile->AppendRelativePath(NS_ConvertUTF8toUTF16(webSpeechDictionary)); //
   tmpFile->GetPath(aStringDictPath);
 
   // FOR B2G PATHS HARDCODED (APPEND /DATA ON THE BEGINING, FOR DESKTOP, ONLY

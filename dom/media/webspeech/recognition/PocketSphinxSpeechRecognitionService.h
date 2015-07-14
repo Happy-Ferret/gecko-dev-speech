@@ -27,6 +27,8 @@ extern "C" {
 
 namespace mozilla {
 
+#define MEDIA_WEBSPEECH_LOCALE_REZA "media.webspeech.locale.reza"
+
 /**
  * Pocketsphix implementation of the nsISpeechRecognitionService interface
  */

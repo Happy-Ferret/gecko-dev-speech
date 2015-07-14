@@ -334,6 +334,16 @@ DIST_FILES += dom/media/webspeech/recognition/models/en-US/sendump
 DIST_FILES += dom/media/webspeech/recognition/models/en-US/transition_matrices
 DIST_FILES += dom/media/webspeech/recognition/models/en-US/variances
 
+DIST_FILES += dom/media/webspeech/recognition/models/dict/es-MX.dic
+DIST_FILES += dom/media/webspeech/recognition/models/dict/es-MX.dic.dmp
+DIST_FILES += dom/media/webspeech/recognition/models/es-MX/feat.params
+DIST_FILES += dom/media/webspeech/recognition/models/es-MX/mdef
+DIST_FILES += dom/media/webspeech/recognition/models/es-MX/means
+DIST_FILES += dom/media/webspeech/recognition/models/es-MX/mixture_weights
+DIST_FILES += dom/media/webspeech/recognition/models/es-MX/noisedict
+DIST_FILES += dom/media/webspeech/recognition/models/es-MX/sendump
+DIST_FILES += dom/media/webspeech/recognition/models/es-MX/transition_matrices
+DIST_FILES += dom/media/webspeech/recognition/models/es-MX/variances
 
 GECKO_APP_AP_PATH = $(abspath $(DEPTH)/mobile/android/base)
 

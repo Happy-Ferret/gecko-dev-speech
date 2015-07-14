@@ -1022,6 +1022,7 @@ pref("media.webspeech.synth.enabled", true);
 // Enable Web Speech recognition API
 pref("media.webspeech.recognition.enable", true);
 pref("media.webspeech.service.default", "pocketsphinx");
+pref("media.webspeech.locale.reza", "es-MX");
 
 // Downloads API
 pref("dom.mozDownloads.enabled", true);

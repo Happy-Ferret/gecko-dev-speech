@@ -1977,6 +1977,7 @@ pref("browser.pocket.useLocaleList", true);
 pref("browser.pocket.enabledLocales", "en-US de es-ES ja ja-JP-mac ru");
 pref("media.webspeech.recognition.enable", true);
 pref("media.webspeech.recognition.force_enable", true);
+pref("media.webspeech.locale.reza", "es-MX");
 
 pref("view_source.tab", true);
 

@@ -10,7 +10,17 @@ MODELSPS_FILES := models/dict/en-US.dic \
 		models/en-US/noisedict \
 		models/en-US/sendump \
 		models/en-US/transition_matrices \
-		models/en-US/variances
+		models/en-US/variances \
+		models/dict/es-MX.dic \
+		models/dict/es-MX.dic.dmp \
+		models/es-MX/mixture_weights \
+		models/es-MX/feat.params \
+		models/es-MX/mdef \
+		models/es-MX/means \
+		models/es-MX/noisedict \
+		models/es-MX/sendump \
+		models/es-MX/transition_matrices \
+		models/es-MX/variances
 
 MODELSPS_DEST := $(DIST)/bin
 INSTALL_TARGETS += MODELSPS
