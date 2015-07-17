@@ -8,27 +8,27 @@
  * are met:
  *
  * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer. 
+ *    notice, this list of conditions and the following disclaimer.
  *
  * 2. Redistributions in binary form must reproduce the above copyright
  *    notice, this list of conditions and the following disclaimer in
  *    the documentation and/or other materials provided with the
  *    distribution.
  *
- * This work was supported in part by funding from the Defense Advanced 
- * Research Projects Agency and the National Science Foundation of the 
+ * This work was supported in part by funding from the Defense Advanced
+ * Research Projects Agency and the National Science Foundation of the
  * United States of America, and the CMU Sphinx Speech Consortium.
  *
- * THIS SOFTWARE IS PROVIDED BY CARNEGIE MELLON UNIVERSITY ``AS IS'' AND 
- * ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, 
+ * THIS SOFTWARE IS PROVIDED BY CARNEGIE MELLON UNIVERSITY ``AS IS'' AND
+ * ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
  * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
  * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL CARNEGIE MELLON UNIVERSITY
  * NOR ITS EMPLOYEES BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY 
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * ====================================================================
@@ -39,11 +39,12 @@
 #define _S3_DICT_H_
 
 /** \file dict.h
- * \brief Operations on dictionary. 
+ * \brief Operations on dictionary.
  */
 
 /* SphinxBase headers. */
 #include <sphinxbase/hash_table.h>
+#include <sphinxbase/ngram_model.h>
 
 /* Local headers. */
 #include "s3types.h"
@@ -56,9 +57,9 @@
 extern "C" {
 #endif
 
-/** 
+/**
     \struct dictword_t
-    \brief a structure for one dictionary word. 
+    \brief a structure for one dictionary word.
 */
 typedef struct {
     char *word;		/**< Ascii word string */
@@ -68,9 +69,9 @@ typedef struct {
     s3wid_t basewid;	/**< Base pronunciation id */
 } dictword_t;
 
-/** 
+/**
     \struct dict_t
-    \brief a structure for a dictionary. 
+    \brief a structure for a dictionary.
 */
 
 typedef struct {
@@ -86,8 +87,21 @@ typedef struct {
     s3wid_t finishwid;	/**< FOR INTERNAL-USE ONLY */
     s3wid_t silwid;	/**< FOR INTERNAL-USE ONLY */
     int nocase;
+    ngram_model_t *ngram_g2p_model;
 } dict_t;
 
+struct winner_t
+{
+    size_t length_match;
+    int winner_wid;
+    size_t len_phoneme;
+};
+
+typedef struct
+{
+    char *word;
+    char *phone;
+} unigram_t;
 
 /**
  * Initialize a new dictionary.
@@ -101,7 +115,8 @@ typedef struct {
  * Return ptr to dict_t if successful, NULL otherwise.
  */
 dict_t *dict_init(cmd_ln_t *config, /**< Configuration (-dict, -fdict, -dictcase) or NULL */
-                  bin_mdef_t *mdef  /**< For looking up CI phone IDs (or NULL) */
+                  bin_mdef_t *mdef,  /**< For looking up CI phone IDs (or NULL) */
+                  logmath_t *logmath // To load ngram_model for g2p load. logmath must be retained with logmath_retain() if it is to be used elsewhere.
     );
 
 /**
@@ -161,7 +176,7 @@ const char *dict_ciphone_str(dict_t *d,	/**< In: Dictionary to look up */
 #define dict_wordstr(d,w)	((w) < 0 ? NULL : (d)->word[w].word)
 #define dict_basestr(d,w)	((d)->word[dict_basewid(d,w)].word)
 #define dict_nextalt(d,w)	((d)->word[w].alt)
-#define dict_pronlen(d,w)	((d)->word[w].pronlen) 
+#define dict_pronlen(d,w)	((d)->word[w].pronlen)
 #define dict_pron(d,w,p)	((d)->word[w].ciphone[p]) /**< The CI phones of the word w at position p */
 #define dict_filler_start(d)	((d)->filler_start)
 #define dict_filler_end(d)	((d)->filler_end)
@@ -202,6 +217,9 @@ int dict_free(dict_t *d);
 /** Report a dictionary structure */
 void dict_report(dict_t *d /**< A dictionary structure */
     );
+
+// g2p functions
+int dict_add_g2p_word(dict_t * dict, char const *word);
 
 #ifdef __cplusplus
 }
