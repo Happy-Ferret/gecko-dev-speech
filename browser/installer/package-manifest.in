@@ -158,6 +158,10 @@
 @RESPATH@/run-mozilla.sh
 #endif
 #endif
+#ifdef MOZ_WEBSPEECH
+@RESPATH@/models/
+@BINPATH@/models/
+#endif
 
 ; [Components]
 @RESPATH@/browser/components/components.manifest
