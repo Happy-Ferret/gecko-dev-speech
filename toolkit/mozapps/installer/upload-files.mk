@@ -323,6 +323,18 @@ UPLOAD_EXTRA_FILES += gecko-unsigned-unaligned.apk
 
 DIST_FILES += $(MOZ_CHILD_PROCESS_NAME)
 
+DIST_FILES += dom/media/webspeech/recognition/models/dict/en-US.dic
+DIST_FILES += dom/media/webspeech/recognition/models/dict/en-US.dic.dmp
+DIST_FILES += dom/media/webspeech/recognition/models/en-US/feat.params
+DIST_FILES += dom/media/webspeech/recognition/models/en-US/mdef
+DIST_FILES += dom/media/webspeech/recognition/models/en-US/means
+DIST_FILES += dom/media/webspeech/recognition/models/en-US/mixture_weights
+DIST_FILES += dom/media/webspeech/recognition/models/en-US/noisedict
+DIST_FILES += dom/media/webspeech/recognition/models/en-US/sendump
+DIST_FILES += dom/media/webspeech/recognition/models/en-US/transition_matrices
+DIST_FILES += dom/media/webspeech/recognition/models/en-US/variances
+
+
 GECKO_APP_AP_PATH = $(abspath $(DEPTH)/mobile/android/base)
 
 ifdef ENABLE_TESTS
