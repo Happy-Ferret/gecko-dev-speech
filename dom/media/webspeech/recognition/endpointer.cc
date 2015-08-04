@@ -32,6 +32,7 @@
 
 namespace {
 const int kFrameRate = 200;  // 1 frame = 5ms of audio.
+const int kSilenceTolerance = 3; // we want to increase the dynamic silence tolerance three times.
 }
 
 namespace mozilla {
@@ -179,10 +180,11 @@ EpStatus Endpointer::ProcessAudio(const AudioChunk& raw_audio, float* rms_out) {
         }
 
         // Speech complete timeout.
-        if ((ep_time - speech_end_time_us_) > requested_silence_length) {
+        if ((ep_time - speech_end_time_us_) > requested_silence_length * kSilenceTolerance) {
           waiting_for_speech_complete_timeout_ = false;
           speech_input_complete_ = true;
         }
+
       }
     }
     old_ep_status_ = ep_status;
