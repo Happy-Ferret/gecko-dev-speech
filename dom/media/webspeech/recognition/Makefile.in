@@ -3,6 +3,8 @@ MODELSPS_KEEP_PATH := 1
 
 MODELSPS_FILES := models/dict/en-US.dic \
 		models/dict/en-US.dic.dmp \
+ 		models/dict/fr-FR.dic \
+		models/dict/fr-FR.dic.dmp \
 		models/en-US/mixture_weights \
 		models/en-US/feat.params \
 		models/en-US/mdef \
@@ -10,7 +12,16 @@ MODELSPS_FILES := models/dict/en-US.dic \
 		models/en-US/noisedict \
 		models/en-US/sendump \
 		models/en-US/transition_matrices \
-		models/en-US/variances
+		models/en-US/variances \
+		models/fr-FR/mixture_weights \
+		models/fr-FR/feat.params \
+		models/fr-FR/mdef \
+		models/fr-FR/means \
+		models/fr-FR/noisedict \
+		models/fr-FR/transition_matrices \
+		models/fr-FR/variances \
+		models/fr-FR/sendump
+
 
 MODELSPS_DEST := $(DIST)/bin
 INSTALL_TARGETS += MODELSPS
