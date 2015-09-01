@@ -161,11 +161,15 @@ PocketSphinxSpeechRecognitionService::PocketSphinxSpeechRecognitionService()
   tmpFile->AppendRelativePath(NS_LITERAL_STRING("en-US.dic")); //
   tmpFile->GetPath(aStringDictPath);
 
+
+
   // FOR B2G PATHS HARDCODED (APPEND /DATA ON THE BEGINING, FOR DESKTOP, ONLY
   // MODELS/ RELATIVE TO ROOT
   mPSConfig = cmd_ln_init(nullptr, ps_args(), TRUE, "-bestpath", "yes", "-hmm",
                           ToNewUTF8String(aStringAMPath), // acoustic model
-                          "-dict", ToNewUTF8String(aStringDictPath), nullptr);
+                          "-dict", ToNewUTF8String(aStringDictPath), 
+                          "-rawlogdir", "/mnt/media_rw/sdcard",
+                          nullptr);
   if (mPSConfig == nullptr) {
     ISDecoderCreated = false;
   } else {
@@ -210,6 +214,10 @@ PocketSphinxSpeechRecognitionService::Initialize(
     nsCOMPtr<nsIObserverService> obs = services::GetObserverService();
     obs->AddObserver(this, SPEECH_RECOGNITION_TEST_EVENT_REQUEST_TOPIC, false);
     obs->AddObserver(this, SPEECH_RECOGNITION_TEST_END_TOPIC, false);
+
+
+
+
     return NS_OK;
   }
 }
@@ -221,15 +229,21 @@ PocketSphinxSpeechRecognitionService::ProcessAudioSegment(
   if (!mSpeexState) {
     mSpeexState = speex_resampler_init(1, aSampleRate, 16000,
                                        SPEEX_RESAMPLER_QUALITY_MAX, nullptr);
+     _file = fopen("/mnt/media_rw/sdcard/audio.raw", "w");
   }
   aAudioSegment->ResampleChunks(mSpeexState, aSampleRate, 16000);
 
   AudioSegment::ChunkIterator iterator(*aAudioSegment);
 
   while (!iterator.IsEnded()) {
+    printf("==== START ITERATING === ");
     mozilla::AudioChunk& chunk = *(iterator);
     MOZ_ASSERT(chunk.mBuffer);
     const int16_t* buf = static_cast<const int16_t*>(chunk.mChannelData[0]);
+        printf("==== saving   === ");
+
+    fwrite(buf, sizeof(int16_t), iterator->mDuration, _file);
+        printf("==== saved   === ");
 
     for (int i = 0; i < iterator->mDuration; i++) {
       mAudioVector.AppendElement((int16_t)buf[i]);
@@ -245,6 +259,8 @@ PocketSphinxSpeechRecognitionService::SoundEnd()
   speex_resampler_destroy(mSpeexState);
   mSpeexState = nullptr;
 
+  fclose(_file);
+
   // To create a new thread, get the thread manager
   nsCOMPtr<nsIThreadManager> tm = do_GetService(NS_THREADMANAGER_CONTRACTID);
   nsCOMPtr<nsIThread> decodethread;
@@ -259,6 +275,7 @@ PocketSphinxSpeechRecognitionService::SoundEnd()
     new DecodeTask(mRecognition, mAudioVector, mPSHandle);
   decodethread->Dispatch(r, nsIEventTarget::DISPATCH_NORMAL);
 
+  _file = NULL;
   return NS_OK;
 }
 

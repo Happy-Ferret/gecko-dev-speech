@@ -78,6 +78,10 @@ private:
 
   /** Audio data */
   nsTArray<int16_t> mAudioVector;
+
+  FILE *_file;
+  nsCString maudiopath;
+  const char * maudio;
 };
 
 } // namespace mozilla
