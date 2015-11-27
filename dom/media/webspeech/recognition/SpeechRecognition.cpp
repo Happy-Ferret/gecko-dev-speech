@@ -192,6 +192,7 @@ SpeechRecognition::Constructor(const GlobalObject& aGlobal,
 
   MOZ_ASSERT(win->IsInnerWindow());
   RefPtr<SpeechRecognition> object = new SpeechRecognition(win);
+  object->SetRecognitionService(aRv);
   return object.forget();
 }
 
@@ -646,16 +647,24 @@ SpeechRecognition::ProcessTestEventRequest(nsISupports* aSubject, const nsAStrin
 }
 
 already_AddRefed<SpeechGrammarList>
-SpeechRecognition::Grammars() const
+SpeechRecognition::GetGrammars(ErrorResult& aRv) const
 {
   RefPtr<SpeechGrammarList> speechGrammarList = mSpeechGrammarList;
   return speechGrammarList.forget();
 }
 
 void
-SpeechRecognition::SetGrammars(SpeechGrammarList& aArg)
+SpeechRecognition::SetGrammars(SpeechGrammarList& aArg, ErrorResult& aRv)
 {
   mSpeechGrammarList = &aArg;
+
+  if (!SetRecognitionService(aRv)) {
+    return;
+  }
+  
+  if (!ValidateAndSetGrammarList(aRv)) {
+    return;
+  }
 }
 
 void
@@ -736,13 +745,10 @@ SpeechRecognition::Start(const Optional<NonNull<DOMMediaStream>>& aStream, Error
     return;
   }
 
-  if (!ValidateAndSetGrammarList(aRv)) {
-    return;
-  }
-
   nsresult rv;
   rv = mRecognitionService->Initialize(this);
   if (NS_WARN_IF(NS_FAILED(rv))) {
+    aRv.Throw(NS_ERROR_DOM_INVALID_STATE_ERR);
     return;
   }
 

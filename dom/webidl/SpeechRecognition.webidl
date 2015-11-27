@@ -15,6 +15,7 @@
  Func="SpeechRecognition::IsAuthorized"]
 interface SpeechRecognition : EventTarget {
     // recognition parameters
+    [Throws]
     attribute SpeechGrammarList grammars;
     attribute DOMString lang;
     [Throws]

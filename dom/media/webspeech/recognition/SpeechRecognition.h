@@ -71,9 +71,9 @@ public:
   static already_AddRefed<SpeechRecognition>
   Constructor(const GlobalObject& aGlobal, ErrorResult& aRv);
 
-  already_AddRefed<SpeechGrammarList> Grammars() const;
+  already_AddRefed<SpeechGrammarList> GetGrammars(ErrorResult& aRv) const;
 
-  void SetGrammars(mozilla::dom::SpeechGrammarList& aArg);
+  void SetGrammars(mozilla::dom::SpeechGrammarList& aArg, ErrorResult& aRv);
 
   void GetLang(nsString& aRetVal) const;
 
